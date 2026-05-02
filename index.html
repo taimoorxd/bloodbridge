@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BloodBridge — Find Donors, Save Lives</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="blood-drop">🩸</span>
+      <span class="brand-text">BloodBridge</span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
+      <a href="#" onclick="showPage('find')" class="nav-link" data-page="find">Find Donors</a>
+      <a href="#" onclick="showPage('request')" class="nav-link" data-page="request">Request Blood</a>
+      <a href="#" onclick="showPage('dashboard')" class="nav-link" data-page="dashboard" id="navDashboard" style="display:none">Dashboard</a>
+      <a href="#" onclick="handleLogout()" class="nav-link nav-logout" id="navLogout" style="display:none">Logout</a>
+      <a href="#" onclick="showPage('auth')" class="nav-btn" id="navLogin">Login / Sign Up</a>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <!-- ===================== TOAST ===================== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===================== HOME PAGE ===================== -->
+  <div id="page-home" class="page active">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-badge">🩸 Save Lives Today</div>
+        <h1 class="hero-title">Every Drop<br/><span class="accent">Counts.</span></h1>
+        <p class="hero-subtitle">Connect with blood donors in your city instantly. No waiting, no complexity — just life-saving connections.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="showPage('find')">Find a Donor</button>
+          <button class="btn btn-outline" onclick="showPage('auth')">Become a Donor</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num" id="statDonors">—</span><span class="stat-label">Donors</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num" id="statRequests">—</span><span class="stat-label">Requests</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">8</span><span class="stat-label">Blood Types</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="blood-cell bc1"></div>
+        <div class="blood-cell bc2"></div>
+        <div class="blood-cell bc3"></div>
+        <div class="big-drop">🩸</div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon">📝</div>
+          <div class="step-num">01</div>
+          <h3>Sign Up</h3>
+          <p>Create your account and fill in your donor profile with blood group and city.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">🔍</div>
+          <div class="step-num">02</div>
+          <h3>Search</h3>
+          <p>Find donors in your city filtered by blood group instantly.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">📞</div>
+          <div class="step-num">03</div>
+          <h3>Connect</h3>
+          <p>Contact donors directly via phone or WhatsApp — no middlemen.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">❤️</div>
+          <div class="step-num">04</div>
+          <h3>Save a Life</h3>
+          <p>Your donation or connection can be someone's miracle today.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blood types info -->
+    <section class="blood-types-section">
+      <h2 class="section-title">Blood Group Compatibility</h2>
+      <div class="blood-grid">
+        <div class="blood-card" data-group="O-">
+          <span class="blood-group-label">O−</span>
+          <span class="blood-tag">Universal Donor</span>
+        </div>
+        <div class="blood-card" data-group="O+">
+          <span class="blood-group-label">O+</span>
+          <span class="blood-tag">Most Common</span>
+        </div>
+        <div class="blood-card" data-group="A+">
+          <span class="blood-group-label">A+</span>
+          <span class="blood-tag">Common</span>
+        </div>
+        <div class="blood-card" data-group="A-">
+          <span class="blood-group-label">A−</span>
+          <span class="blood-tag">Rare</span>
+        </div>
+        <div class="blood-card" data-group="B+">
+          <span class="blood-group-label">B+</span>
+          <span class="blood-tag">Common</span>
+        </div>
+        <div class="blood-card" data-group="B-">
+          <span class="blood-group-label">B−</span>
+          <span class="blood-tag">Rare</span>
+        </div>
+        <div class="blood-card" data-group="AB+">
+          <span class="blood-group-label">AB+</span>
+          <span class="blood-tag">Universal Recipient</span>
+        </div>
+        <div class="blood-card" data-group="AB-">
+          <span class="blood-group-label">AB−</span>
+          <span class="blood-tag">Rarest</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="cta-content">
+        <h2>Ready to make a difference?</h2>
+        <p>Join thousands of donors and help save lives in your community.</p>
+        <button class="btn btn-white" onclick="showPage('auth')">Join BloodBridge Free</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>🩸 BloodBridge &copy; 2026 — Connecting Lives</span>
+    </footer>
+  </div>
+
+  <!-- ===================== AUTH PAGE ===================== -->
+  <div id="page-auth" class="page">
+    <div class="auth-container">
+      <div class="auth-left">
+        <div class="auth-brand">🩸 BloodBridge</div>
+        <h2 class="auth-tagline">Every second counts.<br/>Be the reason someone lives.</h2>
+        <div class="auth-illustration">
+          <div class="pulse-ring"></div>
+          <div class="pulse-ring pr2"></div>
+          <span class="auth-emoji">🩸</span>
+        </div>
+      </div>
+      <div class="auth-right">
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Login</button>
+          <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form">
+          <h3>Welcome Back</h3>
+          <p class="form-subtitle">Log in to your donor account</p>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Your password" />
+          </div>
+          <button class="btn btn-primary btn-full" onclick="handleLogin()">Login</button>
+          <p class="auth-switch">Don't have an account? <a href="#" onclick="switchAuthTab('signup')">Sign Up</a></p>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signupForm" class="auth-form" style="display:none">
+          <h3>Create Account</h3>
+          <p class="form-subtitle">Register as a blood donor</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="signupName" placeholder="Ali Hassan" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" id="signupPhone" placeholder="+92 300 0000000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="signupEmail" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="signupPassword" placeholder="Min 6 characters" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select id="signupBloodGroup">
+                <option value="">Select</option>
+                <option>A+</option><option>A-</option>
+                <option>B+</option><option>B-</option>
+                <option>O+</option><option>O-</option>
+                <option>AB+</option><option>AB-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="signupCity" placeholder="Karachi" />
+            </div>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="handleSignup()">Create Account</button>
+          <p class="auth-switch">Already have an account? <a href="#" onclick="switchAuthTab('login')">Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== DASHBOARD PAGE ===================== -->
+  <div id="page-dashboard" class="page">
+    <div class="page-header">
+      <div class="container">
+        <h1>My Dashboard</h1>
+        <p>Manage your donor profile and availability</p>
+      </div>
+    </div>
+    <div class="container dashboard-grid">
+
+      <!-- Profile Card -->
+      <div class="dash-card profile-card">
+        <div class="dash-card-header">
+          <h3>👤 My Profile</h3>
+          <button class="btn-icon" onclick="toggleEdit()" id="editBtn">✏️ Edit</button>
+        </div>
+        <div id="profileView">
+          <div class="profile-avatar" id="profileAvatar">A</div>
+          <div class="profile-info">
+            <div class="info-row"><span class="info-label">Name</span><span id="dName">—</span></div>
+            <div class="info-row"><span class="info-label">Email</span><span id="dEmail">—</span></div>
+            <div class="info-row"><span class="info-label">Phone</span><span id="dPhone">—</span></div>
+            <div class="info-row"><span class="info-label">Blood Group</span><span id="dBlood" class="blood-badge">—</span></div>
+            <div class="info-row"><span class="info-label">City</span><span id="dCity">—</span></div>
+            <div class="info-row">
+              <span class="info-label">Status</span>
+              <span id="dStatus" class="status-badge">—</span>
+            </div>
+          </div>
+        </div>
+        <div id="profileEdit" style="display:none">
+          <div class="form-group"><label>Full Name</label><input type="text" id="editName"/></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="editPhone"/></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select id="editBloodGroup">
+                <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+              </select>
+            </div>
+            <div class="form-group"><label>City</label><input type="text" id="editCity"/></div>
+          </div>
+          <div class="form-group">
+            <label>Availability</label>
+            <select id="editAvailability">
+              <option value="Available">Available</option>
+              <option value="Not Available">Not Available</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+            <button class="btn btn-outline" onclick="toggleEdit()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Availability Toggle -->
+      <div class="dash-card availability-card">
+        <h3>🟢 Availability</h3>
+        <p>Toggle whether you're currently available to donate blood.</p>
+        <div class="toggle-wrap">
+          <span id="availLabel">Not Available</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="availToggle" onchange="toggleAvailability()"/>
+            <span class="toggle-slider"></span>
+          </label>
+          <span id="availLabelRight">Available</span>
+        </div>
+      </div>
+
+      <!-- My Requests -->
+      <div class="dash-card requests-card">
+        <div class="dash-card-header">
+          <h3>📋 My Blood Requests</h3>
+          <button class="btn btn-primary btn-sm" onclick="showPage('request')">+ New Request</button>
+        </div>
+        <div id="myRequests">
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="dash-card actions-card">
+        <h3>⚡ Quick Actions</h3>
+        <div class="quick-actions">
+          <button class="action-btn" onclick="showPage('find')">
+            <span>🔍</span> Find Donors
+          </button>
+          <button class="action-btn" onclick="showPage('request')">
+            <span>🩸</span> Request Blood
+          </button>
+          <button class="action-btn" onclick="handleLogout()">
+            <span>🚪</span> Logout
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== FIND DONORS PAGE ===================== -->
+  <div id="page-find" class="page">
+    <div class="page-header">
+      <div class="container">
+        <h1>🔍 Find Blood Donors</h1>
+        <p>Search for available donors in your city</p>
+      </div>
+    </div>
+    <div class="container">
+      <!-- Search Bar -->
+      <div class="search-box">
+        <div class="search-fields">
+          <div class="form-group">
+            <label>Blood Group</label>
+            <select id="searchBlood">
+              <option value="">All Blood Groups</option>
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>O+</option><option>O-</option>
+              <option>AB+</option><option>AB-</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="searchCity" placeholder="e.g. Karachi" />
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="searchDonors()">Search Donors</button>
+      </div>
+
+      <!-- Results -->
+      <div class="results-header" id="resultsHeader" style="display:none">
+        <span id="resultsCount">0 donors found</span>
+        <span class="results-filter" id="resultsFilter"></span>
+      </div>
+      <div class="donors-grid" id="donorsGrid">
+        <div class="empty-state">
+          <div class="empty-icon">🔍</div>
+          <h3>Search for Donors</h3>
+          <p>Select a blood group and/or city to find available donors near you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== REQUEST BLOOD PAGE ===================== -->
+  <div id="page-request" class="page">
+    <div class="page-header">
+      <div class="container">
+        <h1>🩸 Request Blood</h1>
+        <p>Post an urgent blood request to find donors quickly</p>
+      </div>
+    </div>
+    <div class="container request-container">
+      <div class="request-form-card">
+        <div id="requestAuthNotice" class="auth-notice" style="display:none">
+          <span>⚠️</span>
+          <span>You must be <a href="#" onclick="showPage('auth')">logged in</a> to post a blood request.</span>
+        </div>
+        <div id="requestFormWrap">
+          <h3>Fill in Patient Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Patient Name *</label>
+              <input type="text" id="reqPatient" placeholder="Full name of patient" />
+            </div>
+            <div class="form-group">
+              <label>Contact Number *</label>
+              <input type="tel" id="reqContact" placeholder="+92 300 0000000" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Blood Group Needed *</label>
+              <select id="reqBlood">
+                <option value="">Select Blood Group</option>
+                <option>A+</option><option>A-</option>
+                <option>B+</option><option>B-</option>
+                <option>O+</option><option>O-</option>
+                <option>AB+</option><option>AB-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>City *</label>
+              <input type="text" id="reqCity" placeholder="e.g. Karachi" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Urgency Level *</label>
+            <div class="urgency-selector">
+              <label class="urgency-option">
+                <input type="radio" name="urgency" value="Normal" checked />
+                <span class="urgency-badge normal">Normal</span>
+              </label>
+              <label class="urgency-option">
+                <input type="radio" name="urgency" value="Urgent" />
+                <span class="urgency-badge urgent">Urgent</span>
+              </label>
+              <label class="urgency-option">
+                <input type="radio" name="urgency" value="Critical" />
+                <span class="urgency-badge critical">Critical</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Additional Notes</label>
+            <textarea id="reqNotes" rows="3" placeholder="Hospital name, ward number, any additional info..."></textarea>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="submitRequest()">Submit Blood Request</button>
+        </div>
+      </div>
+
+      <!-- Recent Requests -->
+      <div class="recent-requests-card">
+        <h3>📋 Recent Blood Requests</h3>
+        <div id="recentRequests">
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== FIREBASE + APP JS ===================== -->
+  <!-- Firebase SDKs (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
